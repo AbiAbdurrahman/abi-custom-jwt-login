@@ -19,11 +19,13 @@ const register = async (req, res) => {
 
     const firstName = req.body.first_name
     const lastName  = req.body.last_name
+    const username  = req.body.username
 
     const newUser = await user.build({
       first_name: firstName,
       last_name:  lastName,
-      email:      email
+      email:      email,
+      username:   username,
     })
 
 

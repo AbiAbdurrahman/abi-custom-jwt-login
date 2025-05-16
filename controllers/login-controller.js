@@ -37,13 +37,20 @@ const login = async (req, res) => {
     const userToken = jwt.sign(
       { user_id: user.id },
       process.env.CLIENT_SECRET,
-      { expiresIn: 1200 }
+      { expiresIn: '1m' }
     )
+
+    const refreshToken = jwt.sign(
+      { user_id: user.id },
+      process.env.CLIENT_SECRET,
+      { expiresIn: '3m' }
+    )
+
     const redis = new Redis();
 
-    redis.set(user.id, userToken);
+    redis.set(user.id, refreshToken);
 
-    return res.json({ userToken });
+    return res.json({ access_token: userToken });
 
   } catch (error) {
     res.status(401)
